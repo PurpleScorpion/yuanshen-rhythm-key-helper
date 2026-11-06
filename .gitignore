@@ -22,6 +22,8 @@ htmlcov/
 *.dll
 *.pyd
 *.zip
+!/软件下载/yuanshen-rhythm-key-helper-windows-x64.zip
+!/软件下载/更新包/*.zip
 
 # User settings, diagnostics and local development files
 /config.json
