@@ -339,8 +339,11 @@ class _MainWindow:
         )
         self.log_scroll = _LogScroll(history, self.log, scale)
         self.log.pack(side="left", fill="both", expand=True)
+        footer_bar = tk.Frame(body, background=_BG)
+        footer_bar.grid(row=4, column=0, sticky="ew", pady=(small, 0))
+        footer_bar.columnconfigure(0, weight=1)
         self.footer = tk.Label(
-            body,
+            footer_bar,
             font=(font[0], 9),
             background=_BG,
             foreground=_MUTED,
@@ -348,8 +351,27 @@ class _MainWindow:
             justify="left",
             wraplength=width - 2 * self.pad,
         )
-        self.footer.grid(row=4, column=0, sticky="ew", pady=(small, 0))
+        self.footer.grid(row=0, column=0, sticky="ew")
         self.footer.bind("<Configure>", lambda event: self.footer.configure(wraplength=event.width))
+        tk.Button(
+            footer_bar,
+            name="view_notice",
+            text="使用声明",
+            command=self.open_notice,
+            font=(font[0], 9, "underline"),
+            cursor="hand2",
+            foreground=_TEAL,
+            background=_BG,
+            activeforeground="#0e5348",
+            activebackground="#e5efec",
+            relief="flat",
+            borderwidth=0,
+            highlightthickness=1,
+            highlightcolor=_TEAL,
+            highlightbackground=_BG,
+            padx=small,
+            pady=1,
+        ).grid(row=0, column=1, sticky="e", padx=(small, 0))
         self.refresh_bindings()
         root.protocol("WM_DELETE_WINDOW", self.close)
         root.bind("<Control-c>", self.copy_or_close)
@@ -436,6 +458,18 @@ class _MainWindow:
             self.session.end_hotkey_edit()
             self.show_error(f"无法打开快捷键设置：{error}")
         self.refresh_controls()
+
+    def open_notice(self):
+        if self.closing or self.calibrating or self.editor:
+            return
+        from .notice_ui import show_notice
+
+        if self.state in ("running", "waiting"):
+            self.command("stop")
+        try:
+            show_notice(self.root)
+        except RuntimeError as error:
+            self.show_error(error)
 
     def editor_closed(self):
         self.editor = None

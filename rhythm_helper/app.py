@@ -18,6 +18,7 @@ from .binding_manager import BindingManager
 from .engine import Action, Engine
 from .hotkeys import GlobalHotkeys
 from .keybinds import display as key_label
+from .notice import ensure_accepted
 from .readiness import WindowReadiness
 from .settings import DEFAULTS, geometry, load_config, save_config
 from .status import StatusDisplay, beep
@@ -204,7 +205,7 @@ def runtime(settings: dict, path: Path, *, dry_run: bool, gui=None) -> None:
         pass
     permission = {True: "管理员", False: "普通权限", None: "权限未知"}[helper_elevated]
     mode = "仅识别，不发键" if dry_run else "实际按键"
-    log(f"{PRODUCT_NAME} v0.8 · {mode} · {permission} · 初始停止", flush=True)
+    log(f"{PRODUCT_NAME} v0.9 · {mode} · {permission} · 初始停止", flush=True)
     log(f"{toggle} 开始/停止，{calibration} 游戏校准。可在主窗口修改快捷键。")
     log("绿色状态条表示正在演奏，灰色表示已停止。", flush=True)
 
@@ -337,7 +338,7 @@ def runtime(settings: dict, path: Path, *, dry_run: bool, gui=None) -> None:
             log_dir / "rhythm.log", maxBytes=2_000_000, backupCount=2, encoding="utf-8"
         )
         diagnostic.addHandler(diagnostic_handler)
-        diagnostic.info("%s v0.8 · %s", PRODUCT_NAME, time.strftime("%Y-%m-%d %H:%M:%S"))
+        diagnostic.info("%s v0.9 · %s", PRODUCT_NAME, time.strftime("%Y-%m-%d %H:%M:%S"))
         log(f"诊断日志：{log_dir / 'rhythm.log'}", flush=True)
     except OSError as error:
         log(f"诊断日志不可用：{error}", flush=True)
@@ -633,6 +634,15 @@ def main() -> int:
     parser.add_argument("--calibration-demo", action="store_true", help="用示例画面练习校准")
     args = parser.parse_args()
     try:
+        interactive = args.inspect is None or args.calibration_demo
+        if not ensure_accepted(interactive=interactive):
+            if not interactive:
+                print(
+                    "请先打开助手主窗口并点击使用声明中的“我接受”，再运行 --inspect。",
+                    file=sys.stderr,
+                )
+                return 1
+            return 0
         if args.calibration_demo:
             enable_dpi_awareness()
             practice_calibration(args.config)

@@ -3,7 +3,18 @@ Windows 10/11 x64 便携版
 
 启动
 
-将整个 ZIP 解压到可写文件夹，再双击 yuanshen-rhythm-key-helper.exe。Windows 会显示管理员授权提示，同意后打开助手主窗口。程序已包含 Python、Tcl/Tk 和其他运行依赖。移动程序时，请一起移动 EXE 旁的 _internal 文件夹。
+将整个 ZIP 解压到可写文件夹，再双击 yuanshen-rhythm-key-helper.exe。Windows 显示管理员授权提示时选择“是”。程序已包含 Python、Tcl/Tk 和其他运行依赖。移动程序时，请一起移动 EXE 旁的 _internal 文件夹。
+
+首次使用与游戏设置
+
+首次启动会显示“使用声明”。阅读后点击“我接受”进入助手。选择退出或关闭声明窗口，程序就会退出，下次启动仍会显示声明。程序为当前 Windows 用户记住选择，重新启动或移动程序后会直接进入主窗口。点击主窗口的“使用声明”可再次查看。
+
+1. 本程序仅供学习和交流使用，严禁用于商业用途。
+2. 为了游戏平衡，游戏内严禁在“传说模式”使用本程序，否则后果自负。（传说模式会随机故意按错几个键。）
+3. 游戏中请使用“垂直模式”。界面样式请选择初始版本的“轻漾涟漪”，请勿使用其他购买的样式。
+4. 在游戏的“设置 → 特化”中，四个选项均请留空，包括降低难度的选项。（做这个的时候压根就没看到有这个功能。）
+
+开源项目 https://github.com/PurpleScorpion/yuanshen-rhythm-key-helper
 
 校准
 
@@ -29,6 +40,8 @@ Windows 10/11 x64 便携版
 
 需要迁移本机校准和快捷键时，先关闭助手，将原来的 config.json 复制到新程序旁。希望重新使用默认设置时，将现有配置备份到其他目录，再打开助手。
 
+从上一版便携包更新时，请先核对旧主程序名为 yuanshen-rhythm-key-helper.exe。退出助手后，打开 v8 到 v9 更新 ZIP 里的 yuanshen-rhythm-key-helper 文件夹，将里面的文件复制到旧 EXE 所在目录，提示时选择替换。更新包会保留原有校准、快捷键和日志。
+
 命令行入口
 
 在程序目录打开 PowerShell，可运行以下命令：
@@ -37,4 +50,4 @@ Windows 10/11 x64 便携版
 .\yuanshen-rhythm-key-helper.exe --calibration-demo
 .\yuanshen-rhythm-key-helper.exe --inspect .\game.png --output .\inspection.png
 
-第一条进入仅识别模式，第二条直接打开校准练习，第三条离线分析截图并输出标注图。
+第一条进入仅识别模式，第二条直接打开校准练习，第三条离线分析截图并输出标注图。首次离线检查前请先启动助手并接受使用声明。

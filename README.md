@@ -8,14 +8,21 @@
 
 1. **本程序仅供学习和交流使用，严禁用于商业用途。**
 2. **为了游戏平衡，游戏内严禁在「传说模式」使用本程序，否则后果自负。**（传说模式会随机故意按错几个键。）
+3. 游戏中请使用「垂直模式」。界面样式请选择初始版本的「轻漾涟漪」，请勿使用其他购买的样式。
+4. 在游戏的「设置 → 特化」中，四个选项均请留空，包括降低难度的选项。（做这个的时候压根就没看到有这个功能。）
+
+开源项目见 [GitHub 上的 yuanshen-rhythm-key-helper](https://github.com/PurpleScorpion/yuanshen-rhythm-key-helper)。
 
 ## 使用教程
 
 ### 1. 解压并启动
 
 1. 将便携包 `yuanshen-rhythm-key-helper-windows-x64.zip` **完整解压**到一个可写文件夹，例如 `D:\游戏工具\千音雅集助手\`。已实测从含中文和空格的目录启动，主窗口可以正常打开和关闭。
-2. 打开解压后的 `yuanshen-rhythm-key-helper` 文件夹，双击 **`yuanshen-rhythm-key-helper.exe`**。Windows 弹出管理员授权提示时选择「是」，随后会打开助手主窗口。便携版自带 Python 和运行依赖，请保留 EXE 旁边的 `_internal` 文件夹。
-3. 如果你下载的是 GitHub **Code → Download ZIP**，拿到的是源码，请按下方[从源码运行](#从源码运行)启动，或自行[构建便携版](#构建便携版)。
+2. 打开解压后的 `yuanshen-rhythm-key-helper` 文件夹，双击 **`yuanshen-rhythm-key-helper.exe`**。Windows 弹出管理员授权提示时选择「是」。便携版自带 Python 和运行依赖，请保留 EXE 旁边的 `_internal` 文件夹。
+3. 首次启动会显示「使用声明」。阅读后点击 **我接受** 进入助手。选择退出或关闭声明窗口，程序就会退出，下次启动仍会显示声明。接受记录保存在当前 Windows 用户的本机目录；使用同一账户重新启动或移动程序后会直接进入主窗口。随时点击主窗口的 **使用声明** 即可再次查看。
+4. 如果你下载的是 GitHub **Code → Download ZIP**，拿到的是源码，请按下方[从源码运行](#从源码运行)启动，或自行[构建便携版](#构建便携版)。
+
+使用上一版便携包、且主程序名同为 `yuanshen-rhythm-key-helper.exe` 时，可以使用 v8 到 v9 更新包。先退出助手，打开更新 ZIP 里的 `yuanshen-rhythm-key-helper` 文件夹，将里面的文件复制到已有 EXE 所在目录，提示时选择替换。原来的校准、快捷键和日志会保留。
 
 ### 2. 第一次使用时校准
 
@@ -73,7 +80,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python $pyt
 | `lane_x`、`hit_y` | 默认六轨位置 | 相对于游戏客户区宽高的坐标，优先使用游戏校准设置。 |
 | `hotkeys.toggle`、`hotkeys.calibrate` | `NumPad9`、`F6` | 系统全局启停和校准快捷键。 |
 
-这些命令可用于仅识别模式、校准练习和离线检查。最后一条读取本地游戏截图，在同目录生成标注图。
+这些命令可用于仅识别模式、校准练习和离线检查。最后一条读取本地游戏截图，在同目录生成标注图。首次离线检查前请先启动助手并接受使用声明。
 
 ```powershell
 .\.venv\Scripts\python.exe main.py --dry-run
