@@ -46,7 +46,8 @@ try {
     }
     $outputBundle = Join-Path $outputRoot $appName
     $outputArchive = Join-Path $outputRoot "$appName-windows-x64.zip"
-    $runName = (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0, 8)
+    # Keep staging names short for Windows systems with the legacy path limit.
+    $runName = [Guid]::NewGuid().ToString('N').Substring(0, 8)
     $workRoot = Join-Path (Join-Path $projectRoot 'build') $runName
     New-Item -ItemType Directory -Path $workRoot | Out-Null
     $buildPython = Resolve-BuildPython -WorkDir $workRoot
@@ -100,11 +101,11 @@ if json.loads(sample.read_text(encoding="utf-8-sig")) != DEFAULTS or load_config
 
     # Use the ignored build folder when possible. A different destination
     # volume needs a staging folder there for the final atomic rename.
-    $stageParent = $workRoot
+    $stageParent = [IO.Directory]::GetParent($workRoot).FullName
     if ([IO.Path]::GetPathRoot($workRoot) -ne [IO.Path]::GetPathRoot($outputRoot)) {
         $stageParent = $outputParent.FullName
     }
-    $stageDist = Join-Path $stageParent ".$appName-$runName"
+    $stageDist = Join-Path $stageParent "p$runName"
     New-Item -ItemType Directory -Path $stageDist | Out-Null
     $env:PYINSTALLER_CONFIG_DIR = Join-Path $workRoot 'pyinstaller-cache'
     $options = @(
@@ -114,7 +115,9 @@ if json.loads(sample.read_text(encoding="utf-8-sig")) != DEFAULTS or load_config
         '--distpath', $stageDist, '--paths', $projectRoot, (Join-Path $projectRoot 'main.py')
     )
     & $buildPython -m PyInstaller @options
-    if ($LASTEXITCODE -ne 0) { throw 'PyInstaller build failed.' }
+    if ($LASTEXITCODE -ne 0) {
+        throw 'PyInstaller build failed. For WinError 206 or an excessively long DLL/data path, retry from shorter source and output directories.'
+    }
 
     $bundle = Join-Path $stageDist $appName
     Copy-Item -LiteralPath $sample -Destination (Join-Path $bundle 'config.json')

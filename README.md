@@ -60,7 +60,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\setup.ps1 -Python $pyt
 
 ## 构建便携版
 
-在 Windows x64 上运行 [build.ps1](build.ps1)。构建已在 CPython 3.13 x64 上验证，所选 Python 需要包含 Tcl/Tk。脚本使用虚拟环境安装 [构建依赖](requirements-build.txt)，生成独立的 Windows GUI 程序，检查图标、Tcl/Tk 资源、管理员清单和压缩包完整性。
+在 Windows x64 上运行 [build.ps1](build.ps1)。构建使用 CPython 3.13 x64，所选 Python 需要包含 Tcl/Tk。脚本使用虚拟环境安装 [构建依赖](requirements-build.txt)，生成独立的 Windows GUI 程序，检查图标、Tcl/Tk 资源、管理员清单和压缩包完整性。Windows 启用旧路径长度限制时，请将源码放在较短的目录中。如果构建报告 WinError 206，缩短源码和输出目录后重试。
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
