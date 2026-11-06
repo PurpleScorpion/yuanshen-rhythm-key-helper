@@ -1,0 +1,44 @@
+# Local interpreters and installed packages
+.venv/
+.venv.backup-*/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Rebuild these from the source and the pinned requirements.
+/release/
+/dist/
+/dist-*/
+/build/
+/.yuanshen-rhythm-key-helper-*/
+*.spec
+*.exe
+*.dll
+*.pyd
+*.zip
+
+# User settings, diagnostics and local development files
+/config.json
+/calibration-practice.json
+codex-clipboard-*
+logs/
+*.log
+*.log.*
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+/docs/superpowers/
+
+# Obsolete local launchers for older packaged versions
+/launch-admin.ps1
+/以管理员启动.cmd
